@@ -48,3 +48,16 @@ SELECT stopb.name, a.company, a.num
       JOIN stops stopa ON (a.stop=stopa.id)
       JOIN stops stopb ON (b.stop=stopb.id)
   WHERE stopa.name='Craiglockhart';
+
+SELECT bus1_src.num, bus1_src.company, stop1_dest.name,  bus2_src.num,  bus2_src.company 
+  FROM route bus1_src JOIN route bus1_dest ON
+     (bus1_src.company=bus1_dest.company AND bus1_src.num=bus1_dest.num)
+  JOIN route bus2_src ON (bus2_src.stop=bus1_dest.stop)
+  JOIN route bus2_dest ON
+    (bus2_src.company=bus2_dest.company AND bus2_src.num=bus2_dest.num)
+  JOIN stops stop1_src ON (bus1_src.stop=stop1_src.id)
+  JOIN stops stop1_dest ON (bus1_dest.stop=stop1_dest.id)
+  JOIN stops stop2_src ON (bus2_src.stop=stop2_src.id)
+  JOIN stops stop2_dest ON (bus2_dest.stop=stop2_dest.id)
+WHERE stop1_src.name = 'Craiglockhart' AND stop2_dest.name = 'Lochend'
+GROUP BY bus1_src.num, stop1_dest.name, bus2_src.num
