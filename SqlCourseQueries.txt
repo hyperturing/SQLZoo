@@ -1,0 +1,151 @@
+//sqlcourse1 queries
+
+CREATE TABLE myemployees_ap1706
+(first varchar(35),
+ last varchar(35),
+ title varchar(35),
+ age number(3),
+ salary number(8)
+);
+
+INSERT INTO myemployees_ap1706
+        (first, last, title, age, salary)
+        values ('Jonie', 'Weber', 'Secretary', 28, 19500.00);
+
+INSERT INTO myemployees_ap1706
+        (first, last, title, age, salary)
+        values ('Potsy', 'Weber', 'Programmer', 32, 45300.00);
+
+INSERT INTO myemployees_ap1706
+       (first, last, title, age, salary)
+        values ('Dirk', 'Smith', 'Programmer II', 45, 75020.00);
+
+
+SELECT * FROM myemployees_ap1706;
+
+SELECT * FROM myemployees_ap1706 WHERE salary > 30000.00;
+
+SELECT first, last FROM myemployees_ap1706 WHERE age < 30;
+
+SELECT first, last, salary FROM myemployees_ap1706 WHERE title LIKE 'Programmer';
+
+SELECT * FROM myemployees_ap1706 WHERE last LIKE '%ebe%';
+
+SELECT first FROM myemployees_ap1706 WHERE first LIKE 'Potsy';
+
+SELECT * FROM myemployees_ap1706 WHERE age > 80;
+
+SELECT * FROM myemployees_ap1706 WHERE last LIKE '%ith';
+
+
+UPDATE myemployees_ap1706 
+ 	    SET last = 'Weber-Williams'
+	    WHERE first = 'Jonie' AND last = 'Weber';
+
+UPDATE myemployees_ap1706
+	    SET age = age + 1
+	    WHERE first = 'Dirk' AND last = 'Smith';
+
+UPDATE myemployees_ap1706
+		SET title = 'Administrative Assistant'
+		WHERE title = 'Secretary';
+
+UPDATE myemployees_ap1706
+        SET salary = salary + 3500
+        WHERE salary < 30000;
+
+UPDATE myemployees_ap1706
+        SET salary = salary + 4500
+        WHERE salary > 33500;
+
+UPDATE myemployees_ap1706
+        SET title = 'Programmer III'
+        WHERE title = 'Programmer II';
+
+UPDATE myemployees_ap1706
+        SET title = 'Programmer II'
+        WHERE title = 'Programmer';
+
+DELETE FROM myemployees_ap1706
+        WHERE first = 'Jonie' AND last = 'Weber-Williams';
+
+DELETE FROM myemployees_ap1706
+        WHERE salary > 70000;
+
+//sqlcourse2 queries
+
+SELECT customerid, item, price FROM items_ordered
+        WHERE customerid = 10449;
+
+SELECT * FROM items_ordered
+        WHERE item LIKE 'Tent';
+
+SELECT customerid, order_date, item FROM items_ordered 
+        WHERE item LIKE 'S%';
+
+SELECT DISTINCT item FROM items_ordered;
+
+SELECT MAX(Price) FROM items_ordered;
+
+SELECT AVG(Price) FROM items_ordered 
+        WHERE order_date LIKE '%-Dec-%';
+
+SELECT COUNT(*) FROM items_ordered;
+
+SELECT MIN(price) FROM items_ordered 
+        WHERE item LIKE 'Tent';
+
+SELECT state,  COUNT(*) FROM customers 
+        GROUP BY state;
+
+SELECT item, MAX(price), MIN(price) FROM items_ordered 
+        GROUP BY item;
+
+SELECT customerid, COUNT(item), SUM(price) FROM items_ordered 
+        GROUP BY customerid;
+
+SELECT state,  COUNT(*) FROM customers 
+        GROUP BY state 
+        HAVING COUNT(*) > 1;
+
+SELECT item, MAX(price), MIN(price) FROM items_ordered 
+        GROUP BY item 
+        HAVING MAX(price) > 190.00;
+
+SELECT customerid, COUNT(item), SUM(price) FROM items_ordered 
+        GROUP BY customerid 
+        HAVING COUNT(item) > 1;
+
+SELECT firstname, lastname, city FROM customers
+        ORDER BY lastname;
+
+SELECT firstname, lastname, city FROM customers 
+        ORDER BY lastname DESC;
+
+SELECT item, price FROM items_ordered 
+        WHERE price > 10.00 
+        ORDER BY price;
+
+SELECT customerid, order_date, item FROM items_ordered 
+        WHERE (item NOT LIKE 'Snow Shoes') OR (item NOT LIKE 'Ear Muffs');
+
+SELECT item, price FROM items_ordered 
+        WHERE (item LIKE 'S%') OR (item LIKE 'P%') OR (item LIKE 'F%');
+
+SELECT order_date, item, price FROM items_ordered 
+        WHERE price BETWEEN 10.00 AND 80.00;
+
+SELECT firstname, city, state FROM customers 
+        WHERE state IN ('Arizona', 'Washington', 'Oklahoma', 'Colorado', 'Hawaii');
+
+SELECT item, ROUND(price / quantity) FROM items_ordered;
+
+SELECT customers.customerid, customers.firstname, customers.lastname, items_ordered.order_date, items_ordered.item, items_ordered.price 
+        FROM items_ordered INNER JOIN customers
+        ON items_ordered.customerid = customers.customerid 
+        ORDER BY customerid;
+
+SELECT customers.customerid, customers.firstname, customers.lastname, items_ordered.order_date, items_ordered.item, items_ordered.price 
+        FROM items_ordered INNER JOIN customers
+        ON items_ordered.customerid = customers.customerid 
+        ORDER BY state DESC;
